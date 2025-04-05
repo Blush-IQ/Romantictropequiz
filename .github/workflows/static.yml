@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlushIQ Romantic Trope Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8d7da;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .welcome-page {
+            background: #f4c2c2;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .welcome-title {
+            font-size: 26px;
+            color: #b33939;
+            font-weight: bold;
+        }
+
+        .scribbles {
+            font-size: 16px;
+            font-style: italic;
+            color: white;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .scribbles span {
+            opacity: 0.8;
+            font-weight: lighter;
+        }
+
+        .input-box {
+            margin-top: 20px;
+        }
+
+        input {
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            width: 60%;
+        }
+
+        .start-btn {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #b33939;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .start-btn:hover {
+            background-color: #ff6b6b;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .question {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #6d4c64;
+        }
+
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            background: #d79fb6;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .options button:hover {
+            background: #b97a96;
+        }
+
+        .result {
+            display: none;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #b34d66;
+        }
+
+        .result img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 4px dashed #f8b9d4;
+            box-shadow: 0 0 15px 3px #ffd6ea, 0 0 5px 2px #ffc8e2 inset;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Welcome Page -->
+    <div id="welcome-page" class="welcome-page">
+        <h1 class="welcome-title">Welcome to the BlushIQ Romantic Trope Quiz!</h1>
+        <div class="scribbles">
+            <span>love</span>
+            <span>hate</span>
+            <span>princess</span>
+            <span>mafia</span>
+        </div>
+        <p>What's your romantic vibe? Let's find out!</p>
+        <div class="input-box">
+            <input type="text" id="user-name" placeholder="Enter your name" />
+        </div>
+        <button class="start-btn" onclick="startQuiz()">Start Quiz</button>
+    </div>
+
+    <!-- Quiz Page -->
+    <div class="container" id="quiz-container">
+        <h1>What’s Your Ultimate Romantic Trope?</h1>
+        <div id="quiz">
+            <p class="question" id="question-text">What’s your ideal first date?</p>
+            <div class="options" id="options">
+                <button onclick="nextQuestion(0)">A cozy bookstore date</button>
+                <button onclick="nextQuestion(1)">A dramatic, rain-soaked confession</button>
+                <button onclick="nextQuestion(2)">A playful enemies-to-lovers debate</button>
+                <button onclick="nextQuestion(3)">A magical meet-cute at a café</button>
+            </div>
+        </div>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function startQuiz() {
+            let userName = document.getElementById('user-name').value;
+            if (userName.trim() === '') {
+                alert('Please enter your name to start the quiz!');
+                return;
+            }
+            document.getElementById('welcome-page').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+        }
+
+        const questions = [
+            { text: "What’s your ideal first date?", answers: ["Slow Burn", "Forbidden Love", "Enemies to Lovers", "Fated Soulmates"] },
+            { text: "What describes your ideal love story?", answers: ["Longing glances and stolen moments", "A love that defies all odds", "From rivals to lovers", "A connection that feels like destiny"] },
+            { text: "What’s a romantic gesture that melts your heart?", answers: ["A love letter written over time", "Running away together against all odds", "A fierce rivalry turning into a deep bond", "A dreamlike moment that feels meant to be"] },
+            { text: "What would you do if you were swept off your feet?", answers: ["Take it slow and enjoy the ride", "Fight the attraction but fall anyway", "Let the sparks fly and see where it goes", "Embrace it as fate"] },
+            { text: "What's the ultimate love confession?", answers: ["A long, heartfelt letter", "A dramatic kiss in the rain", "A rivalry turned tender confession", "A moment that feels like destiny"] },
+            { text: "What would be your dream proposal?", answers: ["A quiet, intimate setting with deep meaning", "A bold, unexpected gesture", "In the heat of a passionate argument", "A surprise where everything feels aligned"] },
+            { text: "What makes your heart race in a romance?", answers: ["Quiet moments that speak volumes", "A battle against time to be together", "The tension between two rival hearts", "The undeniable pull of destiny"] },
+            { text: "How would you describe your ideal lover?", answers: ["Patient, understanding, and kind", "Bold, fearless, and daring", "A bit of a troublemaker with a heart of gold", "Someone whose presence feels like fate"] },
+            { text: "What's your idea of a perfect kiss?", answers: ["Gentle, slow, and filled with emotion", "Fiery, spontaneous, and passionate", "After a heated argument, full of tension", "A soft kiss under a starry sky, as if meant to be"] },
+            { text: "What would be the ideal setting for your romantic escape?", answers: ["A secluded cabin by the lake", "A city under the rain", "A spontaneous getaway after a heated argument", "A fairy-tale destination that feels destined"] },
+            { text: "What’s your reaction when you first meet someone who could be ‘the one’?", answers: ["Take it slow and savor the connection", "Resist it but give in to the attraction", "Fight the chemistry but fall anyway", "Feel like everything is falling into place"] },
+            { text: "What would make your heart skip a beat in a romantic gesture?", answers: ["An unexpected love letter", "A daring act that shows their devotion", "A bold, fiery confession", "A moment where everything aligns perfectly"] },
+            { text: "What kind of love story do you find most exciting?", answers: ["A slow build-up with deep emotional connection", "A forbidden love that challenges everything", "Two enemies becoming everything to each other", "A love that feels written in the stars"] },
+            { text: "What’s your reaction when someone confesses their love to you?", answers: ["I’d take my time to respond, savoring the moment", "I’d be surprised but open to it", "I’d be torn between wanting to fight it or give in", "I’d feel like I’ve known it all along"] },
+            { text: "What’s your ideal happily ever after?", answers: ["Growing old together after a slow-burning romance", "Overcoming all odds to be together", "From enemies to lovers, with a passionate end", "A perfect union that feels like destiny"] }
+        ];
+
+        let currentQuestion = 0;
+        let scores = [0, 0, 0, 0];
+
+        function nextQuestion(answerIndex) {
+            scores[answerIndex]++;
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                document.getElementById("question-text").innerText = questions[currentQuestion].text;
+                let options = document.getElementById("options").children;
+                for (let i = 0; i < options.length; i++) {
+                    options[i].innerText = questions[currentQuestion].answers[i];
+                    options[i].setAttribute("onclick", `nextQuestion(${i})`);
+                }
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById("quiz").style.display = "none";
+            let maxIndex = scores.indexOf(Math.max(...scores));
+            let results = ["Slow Burn Romance", "Forbidden Love", "Enemies to Lovers", "Fated Soulmates"];
+            document.getElementById("result").innerText = "Your Romantic Trope is: " + results[maxIndex] + "!";
+
+            const images = [
+                "https://i.postimg.cc/HLHtQGWs/Slow-burn.jpg",
+                "https://i.postimg.cc/6pC026Xm/Forbidden-love.jpg",
+                "https://i.postimg.cc/Yq5RCGJF/Enemies-to-lovers.jpg",
+                "https://i.postimg.cc/N04kDNL8/Fated-soulmates.jpg"
+            ];
+
+            const image = document.createElement("img");
+            image.src = images[maxIndex];
+            image.alt = "Your trope image";
+
+            document.getElementById("result").appendChild(image);
+            document.getElementById("result").style.display = "block";
+        }
+    </script>
+</body>
+</html>
